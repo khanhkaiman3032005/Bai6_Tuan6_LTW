@@ -1,0 +1,53 @@
+﻿@model Bai6_Tuan6_LTW.Models.Product
+
+@{
+    ViewData["Title"] = "Chi tiết sản phẩm";
+}
+
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-info text-white">
+            <h4 class="mb-0">CHI TIẾT SẢN PHẨM: @Model.Name</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4 text-center">
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid rounded shadow-sm" style="max-height: 400px;" />
+                    }
+                    else
+                    {
+                        <img src="/images/no-image.png" class="img-fluid rounded" />
+                    }
+                </div>
+
+                <div class="col-md-8">
+                    <table class="table table-borderless">
+                        <tr>
+                            <th style="width: 30%">Tên sản phẩm:</th>
+                            <td>@Model.Name</td>
+                        </tr>
+                        <tr>
+                            <th>Giá bán:</th>
+                            <td class="text-danger font-weight-bold">@Model.Price.ToString("N0") VNĐ</td>
+                        </tr>
+                        <tr>
+                            <th>Danh mục:</th>
+                            <td>@(Model.Category != null ? Model.Category.Name : "Chưa phân loại")</td>
+                        </tr>
+                        <tr>
+                            <th>Mô tả:</th>
+                            <td>@Model.Description</td>
+                        </tr>
+                    </table>
+
+                    <div class="mt-4">
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Chỉnh sửa</a>
+                        <a asp-action="Index" class="btn btn-secondary">Quay lại danh sách</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
