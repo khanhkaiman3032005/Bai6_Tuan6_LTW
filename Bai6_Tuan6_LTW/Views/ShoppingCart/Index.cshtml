@@ -1,0 +1,66 @@
+﻿@model Bai6_Tuan6_LTW.Models.ShoppingCart
+
+@{
+    ViewData["Title"] = "Giỏ hàng";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4"><i class="bi bi-cart3"></i> Giỏ hàng của bạn</h2>
+
+    @if (Model.Items.Count > 0)
+    {
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Sản phẩm</th>
+                    <th>Số lượng</th>
+                    <th>Giá</th>
+                    <th>Tổng</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>
+                            <strong>@item.Name</strong>
+                        </td>
+                        <td>@item.Quantity</td>
+                        <td>@item.Price.ToString("N0") đ</td>
+                        <td>@((item.Price * item.Quantity).ToString("N0")) đ</td>
+                        <td>
+                            <a asp-action="RemoveFromCart" asp-route-productId="@item.ProductId"
+                               class="btn btn-outline-danger btn-sm">
+                                <i class="bi bi-trash"></i> Xóa
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="d-flex justify-content-between align-items-center mt-4">
+            <div>
+                <a asp-controller="Product" asp-action="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Tiếp tục mua hàng
+                </a>
+            </div>
+            <div class="text-end">
+                <h4>Tổng tiền: <span class="text-danger">@Model.Items.Sum(i => i.Price * i.Quantity).ToString("N0") đ</span></h4>
+                <a asp-action="Checkout" class="btn btn-success btn-lg px-5">
+                    Thanh toán <i class="bi bi-credit-card"></i>
+                </a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning text-center">
+            <p>Giỏ hàng của bạn đang trống!</p>
+            <a asp-controller="Product" asp-action="Index" class="btn btn-primary">
+                <i class="bi bi-shop"></i> Quay lại cửa hàng ngay
+            </a>
+        </div>
+    }
+</div>

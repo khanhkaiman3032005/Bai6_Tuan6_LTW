@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Bai6_Tuan6_LTW.Extensions
+@using Bai6_Tuan6_LTW.Models
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -7,6 +9,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Bai6_Tuan6_LTW.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
     <header>
@@ -24,6 +27,17 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="ShoppingCart" asp-action="Index">
+                                <i class="bi bi-cart"></i> Giỏ hàng
+                                @{
+                                    var cart = Context.Session.GetObjectFromJson<ShoppingCart>("Cart");
+                                    var count = cart?.Items.Count ?? 0;
+                                }
+                                <span class="badge @(count > 0 ? "bg-danger" : "bg-secondary")">@count</span>
+                            </a>
                         </li>
                     </ul>
                     <ul class="navbar-nav">
