@@ -4,63 +4,128 @@
     ViewData["Title"] = "Giỏ hàng";
 }
 
-<div class="container mt-4">
-    <h2 class="mb-4"><i class="bi bi-cart3"></i> Giỏ hàng của bạn</h2>
+<div class="container mt-5">
+    <h2 class="mb-4 fw-bold"><i class="bi bi-cart3"></i> Giỏ hàng của bạn</h2>
 
     @if (Model.Items.Count > 0)
     {
-        <table class="table table-hover align-middle">
-            <thead class="table-light">
-                <tr>
-                    <th>Sản phẩm</th>
-                    <th>Số lượng</th>
-                    <th>Giá</th>
-                    <th>Tổng</th>
-                    <th>Thao tác</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.Items)
-                {
-                    <tr>
-                        <td>
-                            <strong>@item.Name</strong>
-                        </td>
-                        <td>@item.Quantity</td>
-                        <td>@item.Price.ToString("N0") đ</td>
-                        <td>@((item.Price * item.Quantity).ToString("N0")) đ</td>
-                        <td>
-                            <a asp-action="RemoveFromCart" asp-route-productId="@item.ProductId"
-                               class="btn btn-outline-danger btn-sm">
-                                <i class="bi bi-trash"></i> Xóa
-                            </a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-
-        <div class="d-flex justify-content-between align-items-center mt-4">
-            <div>
-                <a asp-controller="Product" asp-action="Index" class="btn btn-secondary">
-                    <i class="bi bi-arrow-left"></i> Tiếp tục mua hàng
-                </a>
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="card shadow-sm border-0 rounded-3">
+                    <div class="table-responsive p-3">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="border-0">Sản phẩm</th>
+                                    <th class="border-0 text-center">Số lượng</th>
+                                    <th class="border-0 text-end">Đơn giá</th>
+                                    <th class="border-0 text-end">Thành tiền</th>
+                                    <th class="border-0 text-center">Xóa</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Items)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                @* Nếu bạn có ImageUrl hãy thêm <img> ở đây *@
+                                                <div class="fw-bold text-dark">@item.Name</div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge bg-light text-dark border px-3 py-2">@item.Quantity</span>
+                                        </td>
+                                        <td class="text-end">@item.Price.ToString("N0") đ</td>
+                                        <td class="text-end fw-bold text-primary">@((item.Price * item.Quantity).ToString("N0")) đ</td>
+                                        <td class="text-center">
+                                            <a asp-action="RemoveFromCart" asp-route-productId="@item.ProductId"
+                                               class="btn btn-outline-danger btn-sm border-0">
+                                                <i class="bi bi-trash3-fill"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer bg-white py-3 border-0">
+                        <a asp-controller="Product" asp-action="Index" class="btn btn-link text-decoration-none text-secondary p-0">
+                            <i class="bi bi-arrow-left"></i> Tiếp tục chọn thêm sản phẩm
+                        </a>
+                    </div>
+                </div>
             </div>
-            <div class="text-end">
-                <h4>Tổng tiền: <span class="text-danger">@Model.Items.Sum(i => i.Price * i.Quantity).ToString("N0") đ</span></h4>
-                <a asp-action="Checkout" class="btn btn-success btn-lg px-5">
-                    Thanh toán <i class="bi bi-credit-card"></i>
-                </a>
+
+            <div class="col-lg-4">
+                <div class="card shadow-sm border-0 rounded-3 sticky-top" style="top: 20px;">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-4">Thông tin đơn hàng</h5>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Tạm tính (@Model.Items.Count sản phẩm)</span>
+                            <span>@Model.Items.Sum(i => i.Price * i.Quantity).ToString("N0") đ</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="text-muted">Phí vận chuyển</span>
+                            <span class="text-success">Miễn phí</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between mb-4">
+                            <span class="fw-bold fs-5">Tổng cộng</span>
+                            <span class="fw-bold fs-4 text-danger">@Model.Items.Sum(i => i.Price * i.Quantity).ToString("N0") đ</span>
+                        </div>
+
+                        <a asp-action="Checkout" class="btn btn-primary w-100 btn-lg py-3 fw-bold shadow-sm rounded-3">
+                            THANH TOÁN NGAY <i class="bi bi-chevron-right ms-2"></i>
+                        </a>
+
+                        <div class="mt-4 text-center">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" height="20" class="me-2" alt="paypal">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" height="15" alt="visa">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     }
     else
     {
-        <div class="alert alert-warning text-center">
-            <p>Giỏ hàng của bạn đang trống!</p>
-            <a asp-controller="Product" asp-action="Index" class="btn btn-primary">
-                <i class="bi bi-shop"></i> Quay lại cửa hàng ngay
+        <div class="text-center py-5 shadow-sm rounded-3 bg-white">
+            <div class="mb-4">
+                <i class="bi bi-cart-x text-muted" style="font-size: 5rem;"></i>
+            </div>
+            <h3 class="fw-bold text-muted">Giỏ hàng của bạn đang trống!</h3>
+            <p class="text-secondary mb-4">Hãy quay lại và chọn cho mình những sản phẩm ưng ý nhất nhé.</p>
+            <a asp-controller="Product" asp-action="Index" class="btn btn-primary btn-lg px-5 rounded-pill shadow">
+                Quay lại cửa hàng ngay
             </a>
         </div>
     }
 </div>
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .card {
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+        background: #0d6efd;
+        border: none;
+    }
+
+        .btn-primary:hover {
+            background: #0b5ed7;
+            transform: translateY(-2px);
+        }
+
+    .table th {
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        color: #6c757d;
+    }
+</style>

@@ -4,18 +4,72 @@
     ViewData["Title"] = "Thanh toán";
 }
 
-<h2>Thông tin thanh toán</h2>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-header bg-primary text-white py-3">
+                    <h4 class="mb-0 text-center fw-bold">
+                        <i class="bi bi-credit-card-2-front"></i> THÔNG TIN THANH TOÁN
+                    </h4>
+                </div>
 
-<form asp-action="Checkout" method="post">
-    <div class="form-group">
-        <label>Địa chỉ giao hàng</label>
-        <input asp-for="ShippingAddress" class="form-class" required />
-    </div>
-    <div class="form-group mt-2">
-        <label>Ghi chú</label>
-        <textarea asp-for="Notes" class="form-control"></textarea>
-    </div>
+                <div class="card-body p-4">
+                    <form asp-action="Checkout" method="post">
 
-    <h4 class="mt-3">Xác nhận đơn hàng</h4>
-    <button type="submit" class="btn btn-primary mt-2">Xác nhận đặt hàng</button>
-</form>
+                        <div class="mb-4">
+                            <label class="form-label fw-bold"><i class="bi bi-geo-alt"></i> Địa chỉ giao hàng</label>
+                            <input asp-for="ShippingAddress" class="form-control form-control-lg"
+                                   placeholder="Số nhà, tên đường, phường/xã..." required />
+                            <span asp-validation-for="ShippingAddress" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold"><i class="bi bi-pencil-square"></i> Ghi chú đơn hàng</label>
+                            <textarea asp-for="Notes" class="form-control" rows="3"
+                                      placeholder="Ví dụ: Giao giờ hành chính, gọi trước khi đến..."></textarea>
+                        </div>
+
+                        <div class="alert alert-info border-0 shadow-sm">
+                            <i class="bi bi-info-circle-fill"></i>
+                            Đơn hàng sẽ được xác nhận ngay sau khi bạn nhấn nút bên dưới.
+                        </div>
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-success btn-lg fw-bold py-3 shadow-sm transition-hover">
+                                <i class="bi bi-check-all"></i> XÁC NHẬN ĐẶT HÀNG
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i> Quay lại giỏ hàng
+                            </a>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card-footer bg-light text-center py-3">
+                    <small class="text-muted"><i class="bi bi-shield-check"></i> Thanh toán an toàn & bảo mật</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #f4f7f6;
+    }
+
+    .card {
+        transition: all 0.3s ease;
+    }
+
+    .transition-hover:hover {
+        transform: scale(1.02);
+        filter: brightness(1.1);
+    }
+
+    .form-control:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+    }
+</style>
